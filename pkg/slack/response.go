@@ -21,6 +21,12 @@ type AccessResponse struct {
 	ResponseStatus
 }
 
+type ConversationListResponse struct {
+	Channels         []Channel        `json:"channels"`
+	ResponseMetaData ResponseMetadata `json:"response_metadata"`
+	ResponseStatus
+}
+
 type ResponseStatus struct {
 	Ok               bool             `json:"ok"`
 	Error            bool             `json:"error"`

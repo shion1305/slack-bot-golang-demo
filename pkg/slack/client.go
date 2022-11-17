@@ -1,84 +1,63 @@
 package slack
 
 import (
-	"fmt"
-	"github.com/go-resty/resty/v2"
-)
-
-const (
-	ApiAccessTokenEndpoint      string = "https://slack.com/api/oauth.v2.access"
-	ApiConversationListEndpoint string = "https://slack.com/api/conversations.list"
-	ApiChannelCreateEndpoint    string = "https://slack.com/api/conversations.create"
+	slackLib "github.com/slack-go/slack"
+	"net/http"
 )
 
 type SlackAPI struct {
 	clientId     string
 	clientSecret string
 	redirectURI  string
+	token        string
+	httpClient   *http.Client
+	slackClient  *slackLib.Client
 }
 
 func NewSlackAPI(
-	clientId string, clientSecret string, redirectUri string,
+	clientId string, clientSecret string, redirectUri string, token string,
 ) SlackAPI {
+
 	return SlackAPI{
 		clientId:     clientId,
 		clientSecret: clientSecret,
-		redirectURI:  redirectUri}
+		redirectURI:  redirectUri,
+		token:        token,
+		httpClient:   &http.Client{},
+		slackClient:  slackLib.New(token),
+	}
 }
 
 // GetAccessToken refer https://api.slack.com/methods/oauth.v2.access
-func (api SlackAPI) GetAccessToken(code string) (*AccessResponse, error) {
-	client := resty.New()
-	var r AccessResponse
-	resp, err := client.R().
-		SetQueryParams(map[string]string{
-			"code":         code,
-			"redirect_uri": api.redirectURI,
-		}).
-		SetBasicAuth(api.clientId, api.clientSecret).
-		SetResult(&r).
-		Post(ApiAccessTokenEndpoint)
-
-	if err != nil {
-		return nil, err
-	}
-
-	if resp.StatusCode() != 200 {
-		err := fmt.Errorf(
-			"error status %d: %s",
-			resp.StatusCode(),
-			resp.Body(),
-		)
-		return nil, err
-	}
-	return &r, nil
+func (api SlackAPI) GetAccessToken(code string) (*slackLib.OAuthV2Response, error) {
+	return slackLib.GetOAuthV2Response(api.httpClient, api.clientId, api.clientSecret, code, api.redirectURI)
 }
 
 // GetConversationList refer https://api.slack.com/methods/conversations.list
-func (api SlackAPI) GetConversationList() (*ConversationListResponse, error) {
-	client := resty.New()
-	var r ConversationListResponse
-	resp, err := client.R().
-		SetQueryParams(map[string]string{
-			"limit":            "1000",
-			"exclude_archived": "false",
-			"types":            "public_channel",
-		}).
-		SetBasicAuth(api.clientId, api.clientSecret).
-		SetResult(&r).
-		Get(ApiConversationListEndpoint)
-	if err != nil {
-		return nil, err
-	}
-	if resp.StatusCode() != 200 {
-		err := fmt.Errorf(
-			"error status %d: %s",
-			resp.StatusCode(),
-			resp.Body(),
+func (api SlackAPI) GetConversationList() ([]slackLib.Channel, error) {
+	channels, nextCursor, err := api.slackClient.GetConversations(
+		&slackLib.GetConversationsParameters{
+			Types: []string{"public_channel", "private_channel"},
+		},
+	)
+	for nextCursor != "" {
+		nextChannels, c, err := api.slackClient.GetConversations(
+			&slackLib.GetConversationsParameters{
+				Types:  []string{"public_channel", "private_channel"},
+				Cursor: nextCursor,
+			},
 		)
-		return nil, err
+		if err != nil {
+			return nil, err
+		}
+		nextCursor = c
+		channels = append(channels, nextChannels...)
 	}
-	return &r, nil
+	return channels, err
+}
+
+func (api SlackAPI) CreateConversation(conversationName string, isPrivate bool) (*slackLib.Channel, error) {
+	return api.slackClient.CreateConversation(conversationName, isPrivate)
 }
 
 //func handleResp(resp *resty.Response, r *ResponseStatus, err error) (*interface{}, error) {

@@ -47,6 +47,7 @@ func main() {
 		accessToken, err := api.GetAccessToken(code)
 		if err != nil {
 			c.Writer.WriteString("Error2: " + err.Error() + "\n")
+			c.Writer.WriteString(accessToken.AccessToken + "\n")
 			return
 		}
 		c.Writer.WriteString("AccessToken: " + accessToken.AccessToken + "\n")

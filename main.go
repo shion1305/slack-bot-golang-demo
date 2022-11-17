@@ -51,6 +51,6 @@ func main() {
 		}
 		c.Writer.WriteString("AccessToken: " + accessToken.AccessToken + "\n")
 	})
-	fmt.Println(os.Getenv(EnvHost) + ":" + os.Getenv(EnvPort) + "/slack/auth")
+	fmt.Println(os.Getenv(EnvHost) + "/slack/auth")
 	client.Run(":" + os.Getenv(EnvPort))
 }

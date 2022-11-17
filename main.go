@@ -31,7 +31,7 @@ func main() {
 	client := gin.Default()
 
 	client.GET("/slack/auth", func(c *gin.Context) {
-		authUrl := "https://slack.com/oauth/v2/authorize?client_id=" + os.Getenv("clientId") + "&scope=channels:join,channels:manage,chat:write,channels:read,groups:read&redirect_uri=" + url.QueryEscape(os.Getenv(EnvRedirectURI)+"&state=123")
+		authUrl := "https://slack.com/oauth/v2/authorize?client_id=" + os.Getenv("clientId") + "&scope=channels:join,channels:manage,chat:write,channels:read,groups:read&redirect_uri=" + url.QueryEscape(os.Getenv(EnvRedirectURI)) + "&state=123"
 		fmt.Println(authUrl)
 		c.Redirect(302, authUrl)
 	})

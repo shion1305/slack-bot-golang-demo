@@ -31,12 +31,12 @@ func main() {
 	client := gin.Default()
 
 	client.GET("/slack/auth", func(c *gin.Context) {
-		authUrl := "https://slack.com/oauth/v2/authorize?client_id=" + os.Getenv("clientId") + "&scope=channels:join,channels:manage,chat:write,channels:read,groups:read&redirect_uri=" + url.QueryEscape(os.Getenv(EnvRedirectURI))
+		authUrl := "https://slack.com/oauth/v2/authorize?client_id=" + os.Getenv("clientId") + "&scope=channels:join,channels:manage,chat:write,channels:read,groups:read&redirect_uri=" + url.QueryEscape(os.Getenv(EnvRedirectURI)+"&state=123")
 		fmt.Println(authUrl)
 		c.Redirect(302, authUrl)
 	})
 
-	client.GET("/callback/", func(c *gin.Context) {
+	client.GET("/callback", func(c *gin.Context) {
 		code := c.Query("code")
 		fmt.Println(code)
 		_, err := api.GetAccessToken(code)

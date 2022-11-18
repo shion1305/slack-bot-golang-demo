@@ -39,15 +39,9 @@ func main() {
 	client.GET("/callback", func(c *gin.Context) {
 		code := c.Query("code")
 		fmt.Println(code)
-		_, err := api.GetAccessToken(code)
-		if err != nil {
-			c.Writer.WriteString("Error1: " + err.Error() + "\n")
-			return
-		}
 		accessToken, err := api.GetAccessToken(code)
 		if err != nil {
-			c.Writer.WriteString("Error2: " + err.Error() + "\n")
-			c.Writer.WriteString(accessToken.AccessToken + "\n")
+			c.Writer.WriteString("Error: " + err.Error() + "\n")
 			return
 		}
 		c.Writer.WriteString("AccessToken: " + accessToken.AccessToken + "\n")

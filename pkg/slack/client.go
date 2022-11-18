@@ -61,6 +61,10 @@ func (api SlackAPI) PostMessage(token string, channel string, message string) (s
 	return slackLib.New(token).PostMessage(channel, slackLib.MsgOptionText(message, false))
 }
 
+func (api SlackAPI) PostMessageWithAttachment(token string, channel string, attachment slackLib.Attachment) (string, string, error) {
+	return slackLib.New(token).PostMessage(channel, slackLib.MsgOptionAttachments(attachment))
+}
+
 func (api SlackAPI) GetUsers(token string) ([]slackLib.User, error) {
 	return slackLib.New(token).GetUsers()
 }

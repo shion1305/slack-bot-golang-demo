@@ -57,18 +57,6 @@ func (api SlackAPI) CreateConversation(token string, conversationName string, is
 	return slackLib.New(token).CreateConversation(conversationName, isPrivate)
 }
 
-//func handleResp(resp *resty.Response, r *ResponseStatus, err error) (*interface{}, error) {
-//	if err != nil {
-//		return nil, err
-//	}
-//
-//	if resp.StatusCode() != 200 {
-//		err := fmt.Errorf(
-//			"error status %d: %s",
-//			resp.StatusCode(),
-//			resp.Body(),
-//		)
-//		return nil, err
-//	}
-//	return r, nil
-//}
+func (api SlackAPI) PostMessage(token string, channel string, message string) (string, string, error) {
+	return slackLib.New(token).PostMessage(channel, slackLib.MsgOptionText(message, false))
+}

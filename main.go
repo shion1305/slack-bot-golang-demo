@@ -43,7 +43,44 @@ func main() {
 			c.Writer.WriteString("Error: " + err.Error() + "\n")
 			return
 		}
-		c.Writer.WriteString("AccessToken: " + accessToken.AccessToken + "\n")
+		c.Writer.WriteString("AccessToken: " + accessToken.AccessToken + "\n\n")
+
+		//try CreateConversation
+		channel, err := api.CreateConversation(accessToken.AccessToken, "test", false)
+		if err != nil {
+			c.Writer.WriteString("Error: " + err.Error() + "\n")
+			return
+		}
+		c.Writer.WriteString("Created Channel!!!\n")
+		c.Writer.WriteString("ChannelID: " + channel.ID + "\n")
+		c.Writer.WriteString("ChannelName: " + channel.Name + "\n")
+
+		//try GetConversationList
+		conversationList, err := api.GetConversationList(accessToken.AccessToken)
+		if err != nil {
+			c.Writer.WriteString("Error in ConversationList: " + err.Error() + "\n")
+			return
+		}
+		c.Writer.WriteString("ConversationList: " + "\n")
+		for _, conversation := range conversationList {
+			// Output Name, ID, IsChannel, Creator, Members
+			c.Writer.WriteString("Name: " + conversation.Name + "\n")
+			c.Writer.WriteString("ID: " + conversation.ID + "\n")
+			c.Writer.WriteString("IsChannel: " + fmt.Sprintf("%v", conversation.IsChannel) + "\n")
+			c.Writer.WriteString("Creator: " + conversation.Creator + "\n")
+			c.Writer.WriteString("Members: " + fmt.Sprintf("%v", conversation.Members) + "\n")
+			c.Writer.WriteString("\n")
+		}
+
+		//try PostMessage
+		t, t1, err := api.PostMessage(accessToken.AccessToken, channel.ID, "Hello World!")
+		if err != nil {
+			c.Writer.WriteString("Error in PostMessage: " + err.Error() + "\n")
+			return
+		}
+		c.Writer.WriteString("PostMessage: " + "\n")
+		c.Writer.WriteString("Timestamp: " + t + "\n")
+		c.Writer.WriteString("Message: " + t1 + "\n")
 	})
 	fmt.Println(os.Getenv(EnvHost) + "/slack/auth")
 	client.Run(":" + os.Getenv(EnvPort))

@@ -60,3 +60,7 @@ func (api SlackAPI) CreateConversation(token string, conversationName string, is
 func (api SlackAPI) PostMessage(token string, channel string, message string) (string, string, error) {
 	return slackLib.New(token).PostMessage(channel, slackLib.MsgOptionText(message, false))
 }
+
+func (api SlackAPI) GetUsers(token string) ([]slackLib.User, error) {
+	return slackLib.New(token).GetUsers()
+}

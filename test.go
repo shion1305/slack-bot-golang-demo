@@ -49,13 +49,14 @@ func testPostMessage(token string, channelID string, c *gin.Context) {
 	c.Writer.WriteString("TimestampID: " + t1 + "\n")
 }
 
-func testGetUsers(token string, c *gin.Context) {
+func testGetUsers(token string, c *gin.Context) []string {
 	users, err := api.GetUsers(token)
 	if err != nil {
 		c.Writer.WriteString("Error in GetUsers: " + err.Error() + "\n")
-		return
+		return nil
 	}
 	c.Writer.WriteString("---GetUsers---" + "\n")
+	var result []string
 	for _, user := range users {
 		// Output ID, Name, isBot, Profile.Email, Profile.DisplayName, Profile.DisplayNameNormalized, Profile.RealName, Profile.RealNameNormalized, Profile.Image192, Profile.Image512
 		c.Writer.WriteString("ID: " + user.ID + "\n")
@@ -69,5 +70,9 @@ func testGetUsers(token string, c *gin.Context) {
 		c.Writer.WriteString("Profile.Image192: " + user.Profile.Image192 + "\n")
 		c.Writer.WriteString("Profile.Image512: " + user.Profile.Image512 + "\n")
 		c.Writer.WriteString("\n")
+		result = append(result, user.ID)
 	}
+	c.Writer.WriteString(fmt.Sprintf("%+q", result))
+	c.Writer.WriteString("\n")
+	return result
 }

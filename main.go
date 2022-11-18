@@ -15,7 +15,6 @@ const (
 	EnvRedirectURI  = "redirectURI"
 	EnvHost         = "host"
 	EnvPort         = "port"
-	EnvToken        = "token"
 )
 
 func genAuthURI() {
@@ -26,7 +25,7 @@ func genAuthURI() {
 
 func main() {
 	godotenv.Load()
-	api := slack.NewSlackAPI(os.Getenv(EnvClientID), os.Getenv(EnvClientSecret), os.Getenv(EnvRedirectURI), os.Getenv(EnvToken))
+	api := slack.NewSlackAPI(os.Getenv(EnvClientID), os.Getenv(EnvClientSecret), os.Getenv(EnvRedirectURI))
 
 	client := gin.Default()
 

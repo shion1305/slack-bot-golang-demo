@@ -9,22 +9,18 @@ type SlackAPI struct {
 	clientId     string
 	clientSecret string
 	redirectURI  string
-	token        string
 	httpClient   *http.Client
-	slackClient  *slackLib.Client
 }
 
 func NewSlackAPI(
-	clientId string, clientSecret string, redirectUri string, token string,
+	clientId string, clientSecret string, redirectUri string,
 ) SlackAPI {
 
 	return SlackAPI{
 		clientId:     clientId,
 		clientSecret: clientSecret,
 		redirectURI:  redirectUri,
-		token:        token,
 		httpClient:   &http.Client{},
-		slackClient:  slackLib.New(token),
 	}
 }
 
@@ -34,14 +30,15 @@ func (api SlackAPI) GetAccessToken(code string) (*slackLib.OAuthV2Response, erro
 }
 
 // GetConversationList refer https://api.slack.com/methods/conversations.list
-func (api SlackAPI) GetConversationList() ([]slackLib.Channel, error) {
-	channels, nextCursor, err := api.slackClient.GetConversations(
+func (api SlackAPI) GetConversationList(token string) ([]slackLib.Channel, error) {
+	slackClient := slackLib.New(token)
+	channels, nextCursor, err := slackClient.GetConversations(
 		&slackLib.GetConversationsParameters{
 			Types: []string{"public_channel", "private_channel"},
 		},
 	)
 	for nextCursor != "" {
-		nextChannels, c, err := api.slackClient.GetConversations(
+		nextChannels, c, err := slackClient.GetConversations(
 			&slackLib.GetConversationsParameters{
 				Types:  []string{"public_channel", "private_channel"},
 				Cursor: nextCursor,
@@ -56,8 +53,8 @@ func (api SlackAPI) GetConversationList() ([]slackLib.Channel, error) {
 	return channels, err
 }
 
-func (api SlackAPI) CreateConversation(conversationName string, isPrivate bool) (*slackLib.Channel, error) {
-	return api.slackClient.CreateConversation(conversationName, isPrivate)
+func (api SlackAPI) CreateConversation(token string, conversationName string, isPrivate bool) (*slackLib.Channel, error) {
+	return slackLib.New(token).CreateConversation(conversationName, isPrivate)
 }
 
 //func handleResp(resp *resty.Response, r *ResponseStatus, err error) (*interface{}, error) {

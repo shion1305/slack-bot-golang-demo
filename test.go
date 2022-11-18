@@ -48,3 +48,26 @@ func testPostMessage(token string, channelID string, c *gin.Context) {
 	c.Writer.WriteString("ConversationID: " + t + "\n")
 	c.Writer.WriteString("TimestampID: " + t1 + "\n")
 }
+
+func testGetUsers(token string, c *gin.Context) {
+	users, err := api.GetUsers(token)
+	if err != nil {
+		c.Writer.WriteString("Error in GetUsers: " + err.Error() + "\n")
+		return
+	}
+	c.Writer.WriteString("---GetUsers---" + "\n")
+	for _, user := range users {
+		// Output ID, Name, isBot, Profile.Email, Profile.DisplayName, Profile.DisplayNameNormalized, Profile.RealName, Profile.RealNameNormalized, Profile.Image192, Profile.Image512
+		c.Writer.WriteString("ID: " + user.ID + "\n")
+		c.Writer.WriteString("Name: " + user.Name + "\n")
+		c.Writer.WriteString("isBot: " + fmt.Sprintf("%v", user.IsBot) + "\n")
+		c.Writer.WriteString("Profile.Email: " + user.Profile.Email + "\n")
+		c.Writer.WriteString("Profile.DisplayName: " + user.Profile.DisplayName + "\n")
+		c.Writer.WriteString("Profile.DisplayNameNormalized: " + user.Profile.DisplayNameNormalized + "\n")
+		c.Writer.WriteString("Profile.RealName: " + user.Profile.RealName + "\n")
+		c.Writer.WriteString("Profile.RealNameNormalized: " + user.Profile.RealNameNormalized + "\n")
+		c.Writer.WriteString("Profile.Image192: " + user.Profile.Image192 + "\n")
+		c.Writer.WriteString("Profile.Image512: " + user.Profile.Image512 + "\n")
+		c.Writer.WriteString("\n")
+	}
+}

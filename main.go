@@ -54,5 +54,11 @@ func authCallback(c *gin.Context) {
 	//try GetConversationList
 	testGetConversationList(accessToken.AccessToken, c)
 
+	c.Writer.WriteString("\n")
+
+	testGetUsers(accessToken.AccessToken, c)
+
+	c.Writer.WriteString("\n")
+
 	testPostMessage(accessToken.AccessToken, channelID, c)
 }

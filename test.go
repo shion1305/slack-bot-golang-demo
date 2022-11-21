@@ -18,6 +18,7 @@ func testCreateConversation(token string, c *gin.Context) string {
 	c.Writer.WriteString("---Created Channel---\n")
 	c.Writer.WriteString("ChannelID: " + channel.ID + "\n")
 	c.Writer.WriteString("ChannelName: " + channel.Name + "\n")
+	api.InviteUsersToConversation(token, channel.ID, []string{"U04936U1UEB"})
 	return channel.ID
 }
 

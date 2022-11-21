@@ -68,3 +68,11 @@ func (api SlackAPI) PostMessageWithAttachment(token string, channel string, atta
 func (api SlackAPI) GetUsers(token string) ([]slackLib.User, error) {
 	return slackLib.New(token).GetUsers()
 }
+
+func (api SlackAPI) CloseConversation(token string, channel string) (noOp bool, alreadyClosed bool, error error) {
+	return slackLib.New(token).CloseConversation(channel)
+}
+
+func (api SlackAPI) InviteUsersToConversation(token string, channel string, users []string) (*slackLib.Channel, error) {
+	return slackLib.New(token).InviteUsersToConversation(channel, users...)
+}

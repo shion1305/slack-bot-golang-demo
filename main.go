@@ -7,7 +7,6 @@ import (
 	"goSlackBotEmpath/pkg/slack"
 	"net/url"
 	"os"
-	"time"
 )
 
 const (
@@ -62,11 +61,4 @@ func authCallback(c *gin.Context) {
 	c.Writer.WriteString("\n")
 
 	testPostMessage(accessToken.AccessToken, channelID, c)
-
-	c.Writer.WriteString("\n")
-
-	c.Writer.WriteString("CloseConversation count 10...\n")
-	time.Sleep(10 * time.Second)
-
-	testCloseConversation(accessToken.AccessToken, channelID, c)
 }

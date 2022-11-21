@@ -82,6 +82,9 @@ func testGetUsers(token string, c *gin.Context) []string {
 	return result
 }
 
+// CAUTION
+// This method applies only to direct message channels
+// refer to https://api.slack.com/methods/conversations.close
 func testCloseConversation(token string, channelID string, c *gin.Context) {
 	if channelID == "" {
 		return

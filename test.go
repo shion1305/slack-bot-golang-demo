@@ -3,10 +3,14 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"strconv"
+	"time"
 )
 
 func testCreateConversation(token string, c *gin.Context) string {
-	channel, err := api.CreateConversation(token, "test", false)
+	// get current timestamp as string
+	timestamp := strconv.FormatInt(time.Now().Unix(), 10)
+	channel, err := api.CreateConversation(token, "test-"+timestamp, false)
 	if err != nil {
 		c.Writer.WriteString("Error: " + err.Error() + "\n")
 		return ""

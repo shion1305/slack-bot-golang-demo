@@ -81,3 +81,21 @@ func testGetUsers(token string, c *gin.Context) []string {
 	c.Writer.WriteString("\n")
 	return result
 }
+
+func testCloseConversation(token string, channelID string, c *gin.Context) {
+	if channelID == "" {
+		return
+	}
+	noOp, alreadyClosed, err := api.CloseConversation(token, channelID)
+
+	//print result to c
+	c.Writer.WriteString("---CloseConversation---" + "\n")
+	c.Writer.WriteString("noOp: " + fmt.Sprintf("%v", noOp) + "\n")
+	c.Writer.WriteString("alreadyClosed: " + fmt.Sprintf("%v", alreadyClosed) + "\n")
+	c.Writer.WriteString("err: " + fmt.Sprintf("%v", err) + "\n")
+
+	if err != nil {
+		c.Writer.WriteString("Error in CloseConversation: " + err.Error() + "\n")
+		return
+	}
+}

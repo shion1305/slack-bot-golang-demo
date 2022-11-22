@@ -6,16 +6,17 @@ import (
 	"strings"
 )
 
-func createMentionMessage(mentionTargets []string) string {
+func CreateMentionMessage(mentionTargets []string) string {
+	var targets []string
 	for _, user := range mentionTargets {
-		user = "<@" + user + ">"
+		targets = append(targets, "<@"+user+">")
 	}
-	return strings.Join(mentionTargets, " ")
+	return strings.Join(targets, " ")
 }
 
 func SendRecordCompleteNotification(api *slack.SlackAPI, targetUsers []string, channelID string, token string) (conversationID string, timestampID string, err error) {
 	attachment := slackLib.Attachment{
-		Pretext:   "録画が完了しました!" + createMentionMessage(targetUsers),
+		Pretext:   "録画が完了しました!" + CreateMentionMessage(targetUsers),
 		Color:     "#36a64f",
 		Title:     "(MTG名)",
 		TitleLink: "https://jam-roll.jp",

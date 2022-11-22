@@ -61,4 +61,10 @@ func authCallback(c *gin.Context) {
 	c.Writer.WriteString("\n")
 
 	testPostMessage(accessToken.AccessToken, channelID, c)
+
+	c.Writer.WriteString("\n")
+
+	mentions := []string{"U04936U1UEB"}
+
+	testSendNotificationTemplate(accessToken.AccessToken, channelID, mentions, c)
 }

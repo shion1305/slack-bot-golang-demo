@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	uc "goSlackBotEmpath/uc/slack"
 	"strconv"
 	"time"
 )
@@ -101,4 +102,18 @@ func testCloseConversation(token string, channelID string, c *gin.Context) {
 		c.Writer.WriteString("Error in CloseConversation: " + err.Error() + "\n")
 		return
 	}
+}
+
+func testSendNotificationTemplate(token string, channelID string, mentionUser []string, c *gin.Context) {
+	if channelID == "" {
+		return
+	}
+	c.Writer.WriteString("---SendNotificationTemplate---" + "\n")
+	r1, r2, err := uc.SendRecordCompleteNotification(&api, mentionUser, channelID, token)
+	if err != nil {
+		c.Writer.WriteString("Error in SendNotificationTemplate: " + err.Error() + "\n")
+		return
+	}
+	c.Writer.WriteString("ConversationID: " + r1 + "\n")
+	c.Writer.WriteString("TimestampID: " + r2 + "\n")
 }

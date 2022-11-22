@@ -116,4 +116,13 @@ func testSendNotificationTemplate(token string, channelID string, mentionUser []
 	}
 	c.Writer.WriteString("ConversationID: " + r1 + "\n")
 	c.Writer.WriteString("TimestampID: " + r2 + "\n")
+
+	c.Writer.WriteString("---SendNotificationTemplate1---" + "\n")
+	r3, r4, err := uc.SendRecordCompleteNotification1(&api, mentionUser, channelID, token)
+	if err != nil {
+		c.Writer.WriteString("Error in SendNotificationTemplate1: " + err.Error() + "\n")
+		return
+	}
+	c.Writer.WriteString("ConversationID: " + r3 + "\n")
+	c.Writer.WriteString("TimestampID: " + r4 + "\n")
 }

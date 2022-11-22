@@ -57,11 +57,11 @@ func (api SlackAPI) CreateConversation(token string, conversationName string, is
 	return slackLib.New(token).CreateConversation(conversationName, isPrivate)
 }
 
-func (api SlackAPI) PostMessage(token string, channel string, message string) (string, string, error) {
+func (api SlackAPI) PostMessage(token string, channel string, message string) (conversationID string, timestampID string, err error) {
 	return slackLib.New(token).PostMessage(channel, slackLib.MsgOptionText(message, false))
 }
 
-func (api SlackAPI) PostMessageWithAttachment(token string, channel string, attachment slackLib.Attachment) (string, string, error) {
+func (api SlackAPI) PostMessageWithAttachment(token string, channel string, attachment slackLib.Attachment) (conversationID string, timestampID string, err error) {
 	return slackLib.New(token).PostMessage(channel, slackLib.MsgOptionAttachments(attachment))
 }
 

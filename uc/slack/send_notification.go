@@ -20,27 +20,21 @@ func SendRecordCompleteNotification(api *slack.SlackAPI, targetUsers []string, c
 		Color:     "#36a64f",
 		Title:     "(MTG名)",
 		TitleLink: "https://jam-roll.jp",
-		Text:      "MTG時間: 2022/11/07\\nMTG 終了: 17:00",
 		Fields: []slackLib.AttachmentField{
 			{
-				Title: "Field Title",
-				Value: "Field Value",
-				Short: false,
+				Title: "日時",
+				Value: "2022/11/07",
+				Short: true,
 			},
 			{
-				Title: "Field Title",
+				Title: "MTG開始",
 				Value: "Field Value",
-				Short: false,
+				Short: true,
 			},
 			{
-				Title: "Field Title",
+				Title: "MTG終了",
 				Value: "Field Value",
-				Short: false,
-			},
-			{
-				Title: "Field Title",
-				Value: "Field Value",
-				Short: false,
+				Short: true,
 			},
 		},
 	}

@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/slack-go/slack"
 	uc "goSlackBotEmpath/uc/slack"
 	"strconv"
 	"time"
@@ -41,11 +42,11 @@ func testGetConversationList(token string, c *gin.Context) {
 	}
 }
 
-func testPostMessage(token string, channelID string, c *gin.Context) {
+func testPostMessage(token string, channelID string, msg string, c *gin.Context) {
 	if channelID == "" {
 		return
 	}
-	t, t1, err := api.PostMessage(token, channelID, "Hello World!")
+	t, t1, err := api.PostMessage(token, channelID, msg)
 	if err != nil {
 		c.Writer.WriteString("Error in PostMessage: " + err.Error() + "\n")
 		return
@@ -125,4 +126,17 @@ func testSendNotificationTemplate(token string, channelID string, mentionUser []
 	}
 	c.Writer.WriteString("ConversationID: " + r3 + "\n")
 	c.Writer.WriteString("TimestampID: " + r4 + "\n")
+}
+
+func testGetUserIdentity(token string, c *gin.Context) *slack.UserIdentityResponse {
+	identity, err := api.GetUserIdentity(token)
+	if err != nil {
+		c.Writer.WriteString("Error in GetUserIdentity: " + err.Error() + "\n")
+		return nil
+	}
+	c.Writer.WriteString("---GetUserIdentity---" + "\n")
+
+	//Print all fields
+	c.Writer.WriteString(fmt.Sprintf("%+v", identity))
+	return identity
 }

@@ -48,6 +48,9 @@ func authCallback(c *gin.Context) {
 	}
 	c.Writer.WriteString("AccessToken: " + accessToken.AccessToken + "\n\n")
 
+	//try GetUserIdentity
+	identity := testGetUserIdentity(accessToken.AccessToken, c)
+
 	//try CreateConversation
 	channelID := testCreateConversation(accessToken.AccessToken, c)
 
@@ -60,11 +63,12 @@ func authCallback(c *gin.Context) {
 
 	c.Writer.WriteString("\n")
 
-	testPostMessage(accessToken.AccessToken, channelID, c)
+	msg := fmt.Sprintf("Hello %s, your user id is %s", identity.User.Name, identity.User.ID)
+	testPostMessage(accessToken.AccessToken, channelID, msg, c)
 
 	c.Writer.WriteString("\n")
 
-	mentions := []string{"U04936U1UEB"}
+	mentions := []string{identity.User.ID}
 
 	testSendNotificationTemplate(accessToken.AccessToken, channelID, mentions, c)
 }

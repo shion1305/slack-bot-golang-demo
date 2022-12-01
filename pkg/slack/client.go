@@ -76,3 +76,7 @@ func (api SlackAPI) CloseConversation(token string, channel string) (noOp bool, 
 func (api SlackAPI) InviteUsersToConversation(token string, channel string, users []string) (*slackLib.Channel, error) {
 	return slackLib.New(token).InviteUsersToConversation(channel, users...)
 }
+
+func (api SlackAPI) GetUserIdentity(token string) (*slackLib.UserIdentityResponse, error) {
+	return slackLib.New(token).GetUserIdentity()
+}

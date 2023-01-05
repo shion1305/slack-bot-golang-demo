@@ -55,6 +55,8 @@ func authCallback(c *gin.Context) {
 	}
 	_, _ = c.Writer.WriteString("AccessToken: " + accessToken.AccessToken + "\n\n")
 
+	testGetUserInfo(accessToken.AccessToken, accessToken.AuthedUser.ID, c)
+
 	profile := testGetUserProfile(accessToken.AccessToken, c)
 
 	//try CreateConversation

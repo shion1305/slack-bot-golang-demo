@@ -153,3 +153,16 @@ func testGetUserProfile(token string, c *gin.Context) *slack.UserProfile {
 	_, _ = c.Writer.WriteString(fmt.Sprintf("%+v", profile))
 	return profile
 }
+
+func testGetUserInfo(token string, userID string, c *gin.Context) *slack.User {
+	user, err := api.GetUserInfo(token, userID)
+	if err != nil {
+		_, _ = c.Writer.WriteString("Error in GetUserInfo: " + err.Error() + "\n")
+		return nil
+	}
+	_, _ = c.Writer.WriteString("---GetUserInfo---" + "\n")
+
+	//Print all fields
+	_, _ = c.Writer.WriteString(fmt.Sprintf("%+v", user))
+	return user
+}

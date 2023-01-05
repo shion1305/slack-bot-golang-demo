@@ -128,15 +128,28 @@ func testSendNotificationTemplate(token string, channelID string, mentionUser []
 	_, _ = c.Writer.WriteString("TimestampID: " + r4 + "\n")
 }
 
-func testGetUserIdentity(token string, c *gin.Context) *slack.UserIdentityResponse {
-	identity, err := api.GetUserIdentity(token)
+//func testGetUserIdentity(token string, c *gin.Context) *slack.UserIdentityResponse {
+//	identity, err := api.GetUserIdentity(token)
+//	if err != nil {
+//		_, _ = c.Writer.WriteString("Error in GetUserIdentity: " + err.Error() + "\n")
+//		return nil
+//	}
+//	_, _ = c.Writer.WriteString("---GetUserIdentity---" + "\n")
+//
+//	//Print all fields
+//	_, _ = c.Writer.WriteString(fmt.Sprintf("%+v", identity))
+//	return identity
+//}
+
+func testGetUserProfile(token string, c *gin.Context) *slack.UserProfile {
+	profile, err := api.GetUserProfile(token)
 	if err != nil {
-		_, _ = c.Writer.WriteString("Error in GetUserIdentity: " + err.Error() + "\n")
+		_, _ = c.Writer.WriteString("Error in GetUserProfile: " + err.Error() + "\n")
 		return nil
 	}
-	_, _ = c.Writer.WriteString("---GetUserIdentity---" + "\n")
+	_, _ = c.Writer.WriteString("---GetUserProfile---" + "\n")
 
 	//Print all fields
-	_, _ = c.Writer.WriteString(fmt.Sprintf("%+v", identity))
-	return identity
+	_, _ = c.Writer.WriteString(fmt.Sprintf("%+v", profile))
+	return profile
 }

@@ -77,6 +77,9 @@ func (api SlackAPI) InviteUsersToConversation(token string, channel string, user
 	return slackLib.New(token).InviteUsersToConversation(channel, users...)
 }
 
-func (api SlackAPI) GetUserIdentity(token string) (*slackLib.UserIdentityResponse, error) {
-	return slackLib.New(token).GetUserIdentity()
+func (api SlackAPI) GetUserProfile(token string) (*slackLib.UserProfile, error) {
+	return slackLib.New(token).GetUserProfile(&slackLib.GetUserProfileParameters{
+		UserID:        "",
+		IncludeLabels: false,
+	})
 }

@@ -83,3 +83,7 @@ func (api SlackAPI) GetUserProfile(token string) (*slackLib.UserProfile, error) 
 		IncludeLabels: false,
 	})
 }
+
+func (api SlackAPI) GetUserInfo(token string, userID string) (*slackLib.User, error) {
+	return slackLib.New(token).GetUserInfo(userID)
+}

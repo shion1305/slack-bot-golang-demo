@@ -24,7 +24,11 @@ func genAuthURI() string {
 var api slack.SlackAPI
 
 func main() {
-	godotenv.Load()
+	err := godotenv.Load()
+	if err != nil {
+		panic(fmt.Errorf("error loading .env file: %v", err))
+		return
+	}
 	api = slack.NewSlackAPI(os.Getenv(EnvClientID), os.Getenv(EnvClientSecret), os.Getenv(EnvRedirectURI))
 	client := gin.Default()
 

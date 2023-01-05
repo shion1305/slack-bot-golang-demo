@@ -35,7 +35,10 @@ func main() {
 	client.GET("/slack/auth", devAuth)
 	client.GET("/callback", authCallback)
 	fmt.Println(os.Getenv(EnvHost) + "/slack/auth")
-	client.Run(":" + os.Getenv(EnvPort))
+	err = client.Run(":" + os.Getenv(EnvPort))
+	if err != nil {
+		panic(err)
+	}
 }
 
 func devAuth(c *gin.Context) {
@@ -47,10 +50,10 @@ func authCallback(c *gin.Context) {
 	fmt.Println(code)
 	accessToken, err := api.GetAccessToken(code)
 	if err != nil {
-		c.Writer.WriteString("Error: " + err.Error() + "\n")
+		_, _ = c.Writer.WriteString("Error: " + err.Error() + "\n")
 		return
 	}
-	c.Writer.WriteString("AccessToken: " + accessToken.AccessToken + "\n\n")
+	_, _ = c.Writer.WriteString("AccessToken: " + accessToken.AccessToken + "\n\n")
 
 	//try GetUserIdentity
 	identity := testGetUserIdentity(accessToken.AccessToken, c)
@@ -61,16 +64,16 @@ func authCallback(c *gin.Context) {
 	//try GetConversationList
 	testGetConversationList(accessToken.AccessToken, c)
 
-	c.Writer.WriteString("\n")
+	_, _ = c.Writer.WriteString("\n")
 
 	testGetUsers(accessToken.AccessToken, c)
 
-	c.Writer.WriteString("\n")
+	_, _ = c.Writer.WriteString("\n")
 
 	msg := fmt.Sprintf("Hello %s, your user id is %s", identity.User.Name, identity.User.ID)
 	testPostMessage(accessToken.AccessToken, channelID, msg, c)
 
-	c.Writer.WriteString("\n")
+	_, _ = c.Writer.WriteString("\n")
 
 	mentions := []string{identity.User.ID}
 

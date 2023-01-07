@@ -5,6 +5,11 @@ import (
 	"net/http"
 )
 
+type PostMessageResponse struct {
+	ConversationID string
+	TimestampID    string
+}
+
 type SlackAPI struct {
 	clientId     string
 	clientSecret string
@@ -86,4 +91,9 @@ func (api SlackAPI) GetUserProfile(token string) (*slackLib.UserProfile, error) 
 
 func (api SlackAPI) GetUserInfo(token string, userID string) (*slackLib.User, error) {
 	return slackLib.New(token).GetUserInfo(userID)
+}
+
+func (api SlackAPI) SendDirectMessage(token string, userID string, message string) (PostMessageResponse, error) {
+	r1, r2, err := slackLib.New(token).PostMessage(userID, slackLib.MsgOptionText(message, false))
+	return PostMessageResponse{ConversationID: r1, TimestampID: r2}, err
 }

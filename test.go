@@ -166,3 +166,19 @@ func testGetUserInfo(token string, userID string, c *gin.Context) *slack.User {
 	_, _ = c.Writer.WriteString(fmt.Sprintf("%+v", user))
 	return user
 }
+
+func testSendDirectMessage(token string, userID string, c *gin.Context) {
+	if userID == "" {
+		return
+	}
+	_, _ = c.Writer.WriteString("---SendDirectMessage---" + "\n")
+	result, err := api.SendDirectMessage(token, userID, "Hello, World!")
+	if err != nil {
+		_, _ = c.Writer.WriteString("Error in SendDirectMessage: " + err.Error() + "\n")
+		return
+	} else {
+		//print result to c
+		_, _ = c.Writer.WriteString("Conversation ID: " + result.ConversationID + "\n")
+		_, _ = c.Writer.WriteString("Timestamp ID: " + result.TimestampID + "\n")
+	}
+}

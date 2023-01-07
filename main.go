@@ -79,4 +79,6 @@ func authCallback(c *gin.Context) {
 	mentions := []string{accessToken.AuthedUser.ID}
 
 	testSendNotificationTemplate(accessToken.AccessToken, channelID, mentions, c)
+
+	testSendDirectMessage(accessToken.AccessToken, accessToken.AuthedUser.ID, c)
 }

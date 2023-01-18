@@ -44,3 +44,33 @@ func SendRecordCompleteNotification1(api *slack.SlackAPI, targetUsers []string, 
 	}
 	return api.PostMessageWithAttachment(token, channelID, attachment)
 }
+
+func SendChannelChangeNotification(api *slack.SlackAPI, targetUsers []string, channelID string, token string) (conversationID string, timestampID string, err error) {
+	attachment := slackLib.Attachment{
+		Title:         "通知チャンネルが変更されました!",
+		Color:         "#36a64f",
+		Fallback:      "",
+		CallbackID:    "",
+		ID:            0,
+		AuthorID:      "",
+		AuthorName:    "Author",
+		AuthorSubname: "",
+		AuthorLink:    "",
+		AuthorIcon:    "https://img.freepik.com/premium-vector/cartoon-cute-square-shaped-frog-square-icon-apps-games-vector-illustration-isolated_351178-27.jpg",
+		Text:          "設定が変更されたため、通知チャンネルが変更されました。",
+		ImageURL:      "",
+		ThumbURL:      "",
+		ServiceName:   "ServiceName",
+		ServiceIcon:   "https://thumbs.dreamstime.com/b/cute-flat-frog-symbol-logo-icon-simple-vector-173041755.jpg",
+		FromURL:       "",
+		OriginalURL:   "",
+		Fields:        nil,
+		Actions:       nil,
+		MarkdownIn:    nil,
+		Blocks:        slackLib.Blocks{},
+		Footer:        "",
+		FooterIcon:    "",
+		Ts:            "",
+	}
+	return api.PostMessageWithAttachment(token, channelID, attachment)
+}

@@ -25,6 +25,8 @@ func SendRecordCompleteNotification(api *slack.SlackAPI, targetUsers []string, c
 			{Title: "MTG開始", Value: "12:14", Short: true},
 			{Title: "MTG終了", Value: "15:30", Short: true},
 		},
+		AuthorName: "Author",
+		AuthorIcon: "https://img.freepik.com/premium-vector/cartoon-cute-square-shaped-frog-square-icon-apps-games-vector-illustration-isolated_351178-27.jpg",
 	}
 	return api.PostMessageWithAttachment(token, channelID, attachment)
 }
@@ -41,6 +43,8 @@ func SendRecordCompleteNotification1(api *slack.SlackAPI, targetUsers []string, 
 			{Title: "MTG開始", Value: "12:14", Short: true},
 			{Title: "MTG終了", Value: "15:30", Short: true},
 		},
+		AuthorName: "Author",
+		AuthorIcon: "https://img.freepik.com/premium-vector/cartoon-cute-square-shaped-frog-square-icon-apps-games-vector-illustration-isolated_351178-27.jpg",
 	}
 	return api.PostMessageWithAttachment(token, channelID, attachment)
 }

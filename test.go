@@ -131,7 +131,7 @@ func testSendNotificationTemplate(token string, channelID string, mentionUser []
 	_, _ = c.Writer.WriteString("TimestampID: " + r4 + "\n")
 
 	_, _ = c.Writer.WriteString("---SendChannelChangeNotification---" + "\n")
-	r5, r6, err := uc.SendChannelChangeNotification(&api, mentionUser, channelID, token)
+	r5, r6, err := uc.SendChannelChangeNotification(&api, channelID, token)
 	if err != nil {
 		_, _ = c.Writer.WriteString("Error in SendChannelChangeNotification: " + err.Error() + "\n")
 		return

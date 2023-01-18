@@ -38,6 +38,9 @@ func testGetConversationList(token string, c *gin.Context) {
 		_, _ = c.Writer.WriteString("IsChannel: " + fmt.Sprintf("%v", conversation.IsChannel) + "\n")
 		_, _ = c.Writer.WriteString("Creator: " + conversation.Creator + "\n")
 		_, _ = c.Writer.WriteString("Members: " + fmt.Sprintf("%v", conversation.Members) + "\n")
+		_, _ = c.Writer.WriteString("IsOpen: " + fmt.Sprintf("%v", conversation.IsOpen) + "\n")
+		_, _ = c.Writer.WriteString("IsPrivate: " + fmt.Sprintf("%v", conversation.IsPrivate) + "\n")
+		_, _ = c.Writer.WriteString("IsArchived: " + fmt.Sprintf("%v", conversation.IsArchived) + "\n")
 		_, _ = c.Writer.WriteString("\n")
 	}
 }

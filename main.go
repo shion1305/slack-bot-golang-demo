@@ -48,37 +48,37 @@ func devAuth(c *gin.Context) {
 func authCallback(c *gin.Context) {
 	code := c.Query("code")
 	fmt.Println(code)
-	accessToken, err := api.GetAccessToken(code)
-	if err != nil {
-		_, _ = c.Writer.WriteString("Error: " + err.Error() + "\n")
-		return
-	}
-	_, _ = c.Writer.WriteString("AccessToken: " + accessToken.AccessToken + "\n\n")
-
-	testGetUserInfo(accessToken.AccessToken, accessToken.AuthedUser.ID, c)
-
-	profile := testGetUserProfile(accessToken.AccessToken, c)
-
-	//try CreateConversation
-	channelID := testCreateConversation(accessToken.AccessToken, c)
-
-	//try GetConversationList
-	testGetConversationList(accessToken.AccessToken, c)
-
-	_, _ = c.Writer.WriteString("\n")
-
-	testGetUsers(accessToken.AccessToken, c)
-
-	_, _ = c.Writer.WriteString("\n")
-
-	msg := fmt.Sprintf("Hello %s, your user id is %s", profile.DisplayName, accessToken.AuthedUser.ID)
-	testPostMessage(accessToken.AccessToken, channelID, msg, c)
-
-	_, _ = c.Writer.WriteString("\n")
-
-	mentions := []string{accessToken.AuthedUser.ID}
-
-	testSendNotificationTemplate(accessToken.AccessToken, channelID, mentions, c)
-
-	testSendDirectMessage(accessToken.AccessToken, accessToken.AuthedUser.ID, c)
+	//accessToken, err := api.GetAccessToken(code)
+	//if err != nil {
+	//	_, _ = c.Writer.WriteString("Error: " + err.Error() + "\n")
+	//	return
+	//}
+	//_, _ = c.Writer.WriteString("AccessToken: " + accessToken.AccessToken + "\n\n")
+	//
+	//testGetUserInfo(accessToken.AccessToken, accessToken.AuthedUser.ID, c)
+	//
+	//profile := testGetUserProfile(accessToken.AccessToken, c)
+	//
+	////try CreateConversation
+	//channelID := testCreateConversation(accessToken.AccessToken, c)
+	//
+	////try GetConversationList
+	//testGetConversationList(accessToken.AccessToken, c)
+	//
+	//_, _ = c.Writer.WriteString("\n")
+	//
+	//testGetUsers(accessToken.AccessToken, c)
+	//
+	//_, _ = c.Writer.WriteString("\n")
+	//
+	//msg := fmt.Sprintf("Hello %s, your user id is %s", profile.DisplayName, accessToken.AuthedUser.ID)
+	//testPostMessage(accessToken.AccessToken, channelID, msg, c)
+	//
+	//_, _ = c.Writer.WriteString("\n")
+	//
+	//mentions := []string{accessToken.AuthedUser.ID}
+	//
+	//testSendNotificationTemplate(accessToken.AccessToken, channelID, mentions, c)
+	//
+	//testSendDirectMessage(accessToken.AccessToken, accessToken.AuthedUser.ID, c)
 }
